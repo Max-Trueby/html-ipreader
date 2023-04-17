@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>maxtrueby.com</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?&family=Poppins:wght@700&display=swap');
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: black;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        #message {
+            max-width: 80%;
+        }
+    </style>
+</head>
+
+<body>
+    <p id="message"></p>
+
+    <script>
+        // get the user's IP address
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;
+
+                // get the user's country based on their IP address
+                fetch(`http://ip-api.com/json/${ipAddress}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const country = data.country;
+                        const city = data.city;
+                        const region = data.regionName;
+                        const isp = data.org;
+
+                        // update the welcome message with the country name
+                        const messageElement = document.getElementById('message');
+                        messageElement.innerHTML = `Nice to see somebody from ${country}! <br> Hope you're having a great day in ${city}, ${region} <br> <br> ${ipAddress}, ${isp}`;
+                    });
+            });
+    </script>
+</body>
+
+</html>
